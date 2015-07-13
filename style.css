@@ -1,0 +1,7 @@
+.dealer, .player {
+  height: 216px;
+}
+
+.dealer img, .player img {
+  margin-left: -150px;
+}
