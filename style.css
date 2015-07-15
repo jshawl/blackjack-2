@@ -161,10 +161,38 @@ table {
   font-size: 20px;
   border-radius: 10px;
 }
+.chip0 {
+  width: 45px;
+  height: 47px;
+  background-color: pink;
+  top: 707px;
+  right: 362px;
+}
 .chip25 {
-  width: 30px;
-  height: 30px;
+  width: 45px;
+  height: 47px;
   background-color: red;
-  top: 705px;
-  right: 320px;
+  top: 697px;
+  right: 312px;
+}
+.chip50 {
+  width: 45px;
+  height: 47px;
+  background-color: blue;
+  top: 707px;
+  right: 262px;
+}
+.chip100 {
+  width: 45px;
+  height: 47px;
+  background-color: green;
+  top: 707px;
+  right: 212px;
+}
+.chip500 {
+  width: 45px;
+  height: 47px;
+  background-color: yellow;
+  top: 707px;
+  right: 162px;
 }

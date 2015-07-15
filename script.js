@@ -164,9 +164,6 @@
         var $bankRoll = $("#bankingRoll");
         var $yourBet = $("#yourBet");
 
-        // this.player.bankingRoll -= amount;
-        // this.player.bet += amount;
-
         if (this.player.score === 21 && this.player.cards.length === 2 && this.dealer.score !== 21) {
           result = "BlackJack";
           this.player.bankingRoll += this.player.bet * 1.5;
@@ -301,6 +298,9 @@
 
          $bet25.on("click", function() {
            self.placeBet(25);
+
+          //  $('.player').animate({ 'left' : '800px', 'top' : '0px'})
+
          })
        } ,
 
@@ -323,6 +323,9 @@
 
     blackJack.startGame() ;
 
-
-//create overplay for Play Game
-//change possible outcomes conditional statements
+//ADD EVENT LISTENERS TO CHIPS!!!!!!!
+//style button (inverse it)
+//style score (different background)
+//add transparency to div chips
+//create chips images
+//add animation to chips
