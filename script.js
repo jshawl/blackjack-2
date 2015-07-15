@@ -145,9 +145,11 @@
         var self = blackJack;
         self.updateScore(self.dealer);
         var score = parseInt(self.dealer.score);
-        if (score < 17) {
+        var playerHasBlackJack = self.player.score === 21 && self.player.cards.length === 2;
+        if (score < 17 && !playerHasBlackJack) {
           self.dealCard(self.dealer, false, self.dealerDrawCards);
         } else {
+
           self.showFinalResults();
         }
       },
@@ -155,39 +157,61 @@
       showFinalResults : function () {
         var result;
         var $header = $(".popup h2");
-        if (this.player.score > 21) { result = "Busted" }
-        else if (this.dealer.score > 21) {result = "Busted"}
-        else if (this.player.score === 21) {
-             if (this.dealer.score) { result = "Pushed"} result = "BlackJack" }
-        else if (this.dealer.score === 21 ||
-                 this.dealer.score > this.player.score ) { result = "You lost" }
-        else if ( this.player.score > this.dealer.score) { result = "You win" }
+        var $board = $("div#popup1");
+        var $popup = $(".popup");
+        if (this.player.score === 21 && this.player.cards.length === 2 && this.dealer.score !== 21) {
+          result = "BlackJack";
+          this.soundEffects.happySound.play();
+        } else if (this.player.score > 21) {
+          result = "Busted";
+          this.soundEffects.sadSound.play();
+        } else if (this.dealer.score > 21 || this.player.score > this.dealer.score) {
+          result = "You win";
+          this.soundEffects.happySound.play();
+        } else if (this.dealer.score > this.player.score) {
+          result = "You lost";
+          this.soundEffects.sadSound.play();
+        } else {
+          result = "Pushed";
+          this.soundEffects.sadSound.Play();
+        }
 
+        $(".content").show();
         $header.text(result);
         $(".dealerScore").text(this.dealer.score);
         $(".playerScore").text(this.player.score);
-        $(".overlay").addClass("overplay");
-        this.resetGame();
+        $board.show();
+        setTimeout(function() {
+          $popup.css("transform", "");
+        }, 0)
       },
+
+      soundEffects : {
+        happySound: document.createElement('audio'),
+        sadSound: document.createElement('audio')
+      },
+
+      loadSoundEffects : function () {
+        this.soundEffects.happySound.setAttribute('src', 'audio/ApplauseCheeringC AR04_05_1.wav.m4a');
+        this.soundEffects.sadSound.setAttribute('src', 'audio/ReactionCrowd AR02_46_1.wav.m4a');
+      } ,
 
       resetGame : function() {
         var self = this;
-        var $playAgain = $("a.close");
-        $playAgain.on( "click", function() {
-           var array = $.merge( self.player.cards.splice(0, self.player.cards.length), self.dealer.cards.splice(0, self.dealer.cards.length));
-          $.merge( self.deck, array);
-        $(".overlay").removeClass("overplay");
+        var array = $.merge( self.player.cards.splice(0, self.player.cards.length), self.dealer.cards.splice(0, self.dealer.cards.length));
+        $.merge( self.deck, array);
         $(".dealer").html(null)
         $(".player").html(null)
         $("#dealerScore").html(null)
+
         setTimeout(function () {
           self.dealHand()
         }, 500);
-        })
       } ,
 
       dealHand : function() {
         var self = this;
+
         this.dealCard(this.player) ;
 
         var timeout = setTimeout(function () {
@@ -202,15 +226,47 @@
         var timeout = setTimeout(function () {
           self.dealCard(self.dealer, true)
           self.checkIfRoundIsOver(self.player);
-          self.setUpHitBtn()
-          self.setUpStandBtn()
+          $(":button#hit").removeAttr("disabled");
+          $(":button#stand").removeAttr("disabled");
         }, 1500);
+      } ,
+
+      startGame : function() {
+
+        var self = this;
+        var $button = $("a.close");
+        var $header = $(".popup h2");
+        var $board = $("div#popup1");
+        var $popup = $(".popup");
+
+        $header.text("Black Jack");
+        $button.text("Play Game");
+        $(".content").hide();
+
+        $(":button#hit").removeAttr("disabled");
+        $(":button#stand").removeAttr("disabled");
+        self.setUpHitBtn();
+        self.setUpStandBtn();
+        self.loadSoundEffects();
+
+        var closingOverlay = false;
+        $button.text("Play Game").on("click", function () {
+          if (!closingOverlay) {
+            closingOverlay = true;
+            $popup.css("transform", "scale(0)");
+            setTimeout(function() {
+              $board.hide();
+              closingOverlay = false;
+              self.resetGame();
+            }, 1000 )
+          }
+        });
       }
       //end of blackJack object
     }
 
-    blackJack.dealHand() ;
-// });
+    blackJack.startGame() ;
+
 
 //create overplay for Play Game
 //change possible outcomes conditional statements
