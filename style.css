@@ -59,30 +59,29 @@ img {
 /********************************/
 /***  gen style for button   ***/
 /******************************/
-.myButton, .score {
+.myButton {
   width: 80px;
   left: 660px;
 
-	-moz-box-shadow:inset 0px 1px 0px 0px #082100;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #082100;
-	box-shadow:inset 0px 1px 0px 0px #082100;
-	background-color:#204529;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #575c57;
+	-moz-box-shadow:inset 0px 2px 0px 0px #d1f0d3;
+	-webkit-box-shadow:inset 0px 2px 0px 0px #d1f0d3;
+	box-shadow:inset 0px 2px 0px 0px #d1f0d3;
+	background-color:#d4c37d;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
 	display:inline-block;
 	cursor:pointer;
-	color:#b3a462;
-	font-family:Arial;
-	font-size:15px;
+	color:#336329;
+	font-family: 'Vidaloka', serif;
+	font-size:18px;
 	font-weight:bold;
-	padding:6px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #0c2109;
+	padding:5px 15px;
+	/*text-decoration:none;*/
+	text-shadow:0px 1px 0px #cce6c8;
 }
 .myButton:hover {
-	background-color:#0d1c05;
+	background-color:#a99950;
 }
 .myButton:active {
 	position:relative;
@@ -90,10 +89,26 @@ img {
 }
 
 
+
+/*****************************/
+/***  style for message   ***/
+/***************************/
+.message {
+  background: rgba(192,192,192, 0.8);
+  border-radius: 5px;
+  position: absolute;
+  top: 270px;
+  left: 360px;
+  padding: 50px;
+  font-family: 'Vidaloka', serif;
+  color: #333;
+}
+
 /****************************/
 /***  style for pop-up   ***/
 /**************************/
 .overlay {
+  z-index: 99;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -151,48 +166,49 @@ table {
 
 /**********************************/
 
-.showBet {
+.showBet, .score {
   position: absolute;
-  top: 470px;
-  left: 220px;
+  top: 500px;
+  left: 180px;
+  padding: 8px 25px;
   text-align: left;
   font-family: 'Vidaloka', serif;
+  color: #333;
   background: wheat;
   font-size: 20px;
   border-radius: 10px;
 }
-.chip0 {
+.score {
+  width: 80px;
+  left: 660px;
+}
+.chip {
   width: 45px;
-  height: 47px;
-  background-color: pink;
+  height: 45px;
+  background-color: transparent;
+}
+.chip0 {
+  position: absolute;
   top: 707px;
-  right: 362px;
+  left: 767px;
 }
 .chip25 {
-  width: 45px;
-  height: 47px;
-  background-color: red;
+  position: absolute;
   top: 697px;
-  right: 312px;
+  left: 817px;
 }
 .chip50 {
-  width: 45px;
-  height: 47px;
-  background-color: blue;
+  position: absolute;
   top: 707px;
-  right: 262px;
+  left: 867px;
 }
 .chip100 {
-  width: 45px;
-  height: 47px;
-  background-color: green;
+  position: absolute;
   top: 707px;
-  right: 212px;
+  left: 917px;
 }
 .chip500 {
-  width: 45px;
-  height: 47px;
-  background-color: yellow;
+  position: absolute;
   top: 707px;
-  right: 162px;
+  left: 967px;
 }

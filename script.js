@@ -166,7 +166,7 @@
 
         if (this.player.score === 21 && this.player.cards.length === 2 && this.dealer.score !== 21) {
           result = "BlackJack";
-          this.player.bankingRoll += this.player.bet * 1.5;
+          this.player.bankingRoll += this.player.bet * 2.5;
           this.soundEffects.happySound.play();
         } else if (this.player.score > 21) {
           result = "Busted";
@@ -181,7 +181,7 @@
         } else {
           result = "Pushed";
           this.player.bankingRoll += this.player.bet;
-          this.soundEffects.sadSound.Play();
+          this.soundEffects.sadSound.play();
         }
 
         $(".content").show();
@@ -208,9 +208,13 @@
         var self = this;
         var $yourBet = $("#yourBet");
         var $bankRoll = $("#bankingRoll");
+        var $message = $(".message");
+        this.handDealt = false;
         this.player.bet = 0;
         $yourBet.text(" $" + this.player.bet);
         $bankRoll.text(" $" + this.player.bankingRoll);
+
+        $message.show();
 
         var array = $.merge( self.player.cards.splice(0, self.player.cards.length), self.dealer.cards.splice(0, self.dealer.cards.length));
         $.merge( self.deck, array);
@@ -220,6 +224,7 @@
 
         $(":button#hit").hide();
         $(":button#stand").hide();
+        $(".betPileChip").remove();
 
       } ,
 
@@ -253,6 +258,8 @@
         var $board = $("div#popup1");
         var $popup = $(".popup");
         var $betButton = $("#bet");
+        var $message = $(".message");
+        var handDealt = false;
 
         $header.text("Black Jack");
         $button.text("Play Game");
@@ -261,6 +268,7 @@
         $(":button#hit").removeAttr("disabled").hide();
         $(":button#stand").removeAttr("disabled").hide();
         $(":button#bet").hide();
+        $message.hide();
 
         self.setUpHitBtn();
         self.setUpStandBtn();
@@ -274,6 +282,7 @@
             $popup.css("transform", "scale(0)");
             setTimeout(function() {
               $board.hide();
+              $message.show();
               closingOverlay = false;
               self.resetGame();
             }, 1000 )
@@ -281,6 +290,7 @@
         });
 
         $betButton.on("click", function() {
+          self.handDealt = true;
           self.dealHand()
           $betButton.hide();
           $(":button#hit").show();
@@ -295,13 +305,35 @@
          var $bet50 = $(".chip50");
          var $bet25 = $(".chip25");
          var $bet0 = $(".chip0");
+         var $message = $(".message");
+         var $bankRoll = $("#bankingRoll");
+         var $yourBet = $("#yourBet");
+         var clear =
 
-         $bet25.on("click", function() {
-           self.placeBet(25);
+         $bet0.on("click", function() {
+           $message.hide();
+           var clear = 0 - self.player.bet;
+           self.placeBet(clear);
 
-          //  $('.player').animate({ 'left' : '800px', 'top' : '0px'})
+           $(".betPileChip").remove();
+         });
 
-         })
+        $bet25.on("click", function() {
+          $message.hide();
+          self.placeBet(25);
+        });
+        $bet50.on("click", function() {
+          $message.hide();
+          self.placeBet(50);
+        });
+        $bet100.on("click", function() {
+          $message.hide();
+          self.placeBet(100);
+        });
+        $bet500.on("click", function() {
+          $message.hide();
+          self.placeBet(500);
+        });
        } ,
 
         placeBet : function(amount) {
@@ -309,23 +341,43 @@
           var $bankRoll = $("#bankingRoll");
           var $yourBet = $("#yourBet");
           var $button = $("#bet");
-          $button.show();
+          var handDealt = false;
+          if (this.handDealt) return;
+
+
 
           if (amount <= this.player.bankingRoll) {
             this.player.bankingRoll -= amount;
             this.player.bet += amount;
             $bankRoll.text(" $" + this.player.bankingRoll);
             $yourBet.text(" $" + this.player.bet);
+            this.throwChip(amount);
           }
+
+          if (this.player.bet >0) {
+            $button.show();
+          } else $button.hide();
+        } ,
+
+        throwChip : function(amount) {
+          if (this.handDealt || amount<0) return;
+          var $chip;
+          var left = 400;
+          var top = 300;
+          var $screen = $(".screen");
+          if (amount==25) {$chip = $("img.chip25.original:not(.betPileChip)")}
+          else if (amount==50) {$chip = $("img.chip50.original:not(.betPileChip)")}
+          else if (amount==100) {$chip = $("img.chip100.original:not(.betPileChip)")}
+          else if (amount==500) {$chip = $("img.chip500.original:not(.betPileChip)")}
+
+          left += Math.floor(Math.random() * 150);
+          top += Math.floor(Math.random() * 150);
+          left += "px";
+          top += "px";
+
+          $chip.clone().addClass('betPileChip').appendTo($screen).animate ({'left' : left, 'top' : top});
         }
       //end of blackJack object
     }
 
     blackJack.startGame() ;
-
-//ADD EVENT LISTENERS TO CHIPS!!!!!!!
-//style button (inverse it)
-//style score (different background)
-//add transparency to div chips
-//create chips images
-//add animation to chips
