@@ -13,8 +13,20 @@
     <div class="player"></div>
     <p class="score" id="pS">Score: <span id="playerScore"></span></p>
 
+    <button type="button" id="bet" class="myButton">Bet</button>
     <button type="button" id="hit" class="myButton">Hit</button>
     <button type="button" id="stand" class="myButton">Stand</button>
+
+    <table class="showBet">
+       <tr>
+         <th>Your Bet: </th>
+         <td id="yourBet"></td>
+       </tr>
+       <tr>
+         <th>Banking Roll: </th>
+         <td id="bankingRoll"></td>
+       </tr>
+     </table>
 
     <div id="popup1" class="overlay">
   	  <div class="popup">
@@ -32,7 +44,13 @@
            <a class="close" href="#">Play again</a>
   	  </div>
     </div>
-  </div>  
+  </div>
+
+  <div class="chip500"></div>
+  <div class="chip100"></div>
+  <div class="chip50"></div>
+  <div class="chip25"></div>
+  <div class="chip0"></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script type="text/javascript" src="script.js"></script>
 </body>

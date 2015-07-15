@@ -2,7 +2,11 @@
   background-image: url("img/table.jpg");
   height: 768px;
   width: 1024px;
+/*margin-left: auto;
+margin-right: auto;
+position: inherit;*/
 }
+
 div, p {
   position: absolute;
 }
@@ -19,18 +23,27 @@ div, p {
 .dealer img, .player img {
   margin-left: -540px;
 }
-
 img {
   height: 120px;
 }
 
+/*********************/
+/***  my Button   ***/
+/*******************/
+#bet {
+  position: absolute;
+  top: 670px;
+  left: 550px;
+}
 #hit {
   position: absolute;
-  top: 475px;
+  top: 650px;
+  left: 550px;
 }
 #stand {
   position: absolute;
-  top: 520px;
+  top: 690px;
+  left: 550px;
 }
 
 #dS {
@@ -43,9 +56,9 @@ img {
   top: 380px;
 }
 
-
-/***  style for button  ***/
-
+/********************************/
+/***  gen style for button   ***/
+/******************************/
 .myButton, .score {
   width: 80px;
   left: 660px;
@@ -134,4 +147,24 @@ table {
   margin-top: 10px;
   font-family: 'Vidaloka', serif;
   color: #333;
+}
+
+/**********************************/
+
+.showBet {
+  position: absolute;
+  top: 470px;
+  left: 220px;
+  text-align: left;
+  font-family: 'Vidaloka', serif;
+  background: wheat;
+  font-size: 20px;
+  border-radius: 10px;
+}
+.chip25 {
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  top: 705px;
+  right: 320px;
 }

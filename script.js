@@ -63,6 +63,8 @@
         $scoreLocation: $("#playerScore"),
         score : 0,
         cards : [] ,
+        bankingRoll : 1000,
+        bet : 0
       } ,
 
       dealer : {
@@ -159,20 +161,29 @@
         var $header = $(".popup h2");
         var $board = $("div#popup1");
         var $popup = $(".popup");
+        var $bankRoll = $("#bankingRoll");
+        var $yourBet = $("#yourBet");
+
+        // this.player.bankingRoll -= amount;
+        // this.player.bet += amount;
+
         if (this.player.score === 21 && this.player.cards.length === 2 && this.dealer.score !== 21) {
           result = "BlackJack";
+          this.player.bankingRoll += this.player.bet * 1.5;
           this.soundEffects.happySound.play();
         } else if (this.player.score > 21) {
           result = "Busted";
           this.soundEffects.sadSound.play();
         } else if (this.dealer.score > 21 || this.player.score > this.dealer.score) {
           result = "You win";
+          this.player.bankingRoll += this.player.bet * 2;
           this.soundEffects.happySound.play();
         } else if (this.dealer.score > this.player.score) {
           result = "You lost";
           this.soundEffects.sadSound.play();
         } else {
           result = "Pushed";
+          this.player.bankingRoll += this.player.bet;
           this.soundEffects.sadSound.Play();
         }
 
@@ -198,15 +209,21 @@
 
       resetGame : function() {
         var self = this;
+        var $yourBet = $("#yourBet");
+        var $bankRoll = $("#bankingRoll");
+        this.player.bet = 0;
+        $yourBet.text(" $" + this.player.bet);
+        $bankRoll.text(" $" + this.player.bankingRoll);
+
         var array = $.merge( self.player.cards.splice(0, self.player.cards.length), self.dealer.cards.splice(0, self.dealer.cards.length));
         $.merge( self.deck, array);
         $(".dealer").html(null)
         $(".player").html(null)
         $("#dealerScore").html(null)
 
-        setTimeout(function () {
-          self.dealHand()
-        }, 500);
+        $(":button#hit").hide();
+        $(":button#stand").hide();
+
       } ,
 
       dealHand : function() {
@@ -238,16 +255,20 @@
         var $header = $(".popup h2");
         var $board = $("div#popup1");
         var $popup = $(".popup");
+        var $betButton = $("#bet");
 
         $header.text("Black Jack");
         $button.text("Play Game");
         $(".content").hide();
 
-        $(":button#hit").removeAttr("disabled");
-        $(":button#stand").removeAttr("disabled");
+        $(":button#hit").removeAttr("disabled").hide();
+        $(":button#stand").removeAttr("disabled").hide();
+        $(":button#bet").hide();
+
         self.setUpHitBtn();
         self.setUpStandBtn();
         self.loadSoundEffects();
+        self.setUpPlaceBet();
 
         var closingOverlay = false;
         $button.text("Play Game").on("click", function () {
@@ -261,7 +282,42 @@
             }, 1000 )
           }
         });
-      }
+
+        $betButton.on("click", function() {
+          self.dealHand()
+          $betButton.hide();
+          $(":button#hit").show();
+          $(":button#stand").show();
+        })
+      } ,
+
+       setUpPlaceBet : function() {
+         var self = this;
+         var $bet500 = $(".chip500");
+         var $bet100 = $(".chip100");
+         var $bet50 = $(".chip50");
+         var $bet25 = $(".chip25");
+         var $bet0 = $(".chip0");
+
+         $bet25.on("click", function() {
+           self.placeBet(25);
+         })
+       } ,
+
+        placeBet : function(amount) {
+          var self = this;
+          var $bankRoll = $("#bankingRoll");
+          var $yourBet = $("#yourBet");
+          var $button = $("#bet");
+          $button.show();
+
+          if (amount <= this.player.bankingRoll) {
+            this.player.bankingRoll -= amount;
+            this.player.bet += amount;
+            $bankRoll.text(" $" + this.player.bankingRoll);
+            $yourBet.text(" $" + this.player.bet);
+          }
+        }
       //end of blackJack object
     }
 
