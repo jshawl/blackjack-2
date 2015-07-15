@@ -218,9 +218,10 @@
 
         var array = $.merge( self.player.cards.splice(0, self.player.cards.length), self.dealer.cards.splice(0, self.dealer.cards.length));
         $.merge( self.deck, array);
-        $(".dealer").html(null)
-        $(".player").html(null)
-        $("#dealerScore").html(null)
+        $(".dealer").html(null);
+        $(".player").html(null);
+        $("#playerScore").html(null);
+        $("#dealerScore").html(null);
 
         $(":button#hit").hide();
         $(":button#stand").hide();
@@ -277,15 +278,21 @@
 
         var closingOverlay = false;
         $button.text("Play Game").on("click", function () {
-          if (!closingOverlay) {
-            closingOverlay = true;
-            $popup.css("transform", "scale(0)");
-            setTimeout(function() {
-              $board.hide();
-              $message.show();
-              closingOverlay = false;
-              self.resetGame();
-            }, 1000 )
+          if (self.player.bankingRoll>0) {
+            if (!closingOverlay) {
+              closingOverlay = true;
+              $popup.css("transform", "scale(0)");
+              setTimeout(function() {
+                $board.hide();
+                $message.show();
+                closingOverlay = false;
+                self.resetGame();
+              }, 1000 )
+            }
+          } else {
+            $board.hide();
+            $message.show().html("Sorry, you are bankrupt. <br /> Call: ");
+            $( "<a href='tel:18005224700'></a>" ).appendTo($message).text("1-800-522-4700");
           }
         });
 
@@ -379,5 +386,5 @@
         }
       //end of blackJack object
     }
-
+//1-800-522-4700
     blackJack.startGame() ;
