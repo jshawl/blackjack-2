@@ -56,6 +56,9 @@
         { value: 10 , image: "img/card/diamondsJack.png" },
         { value: 10 , image: "img/card/diamondsQueen.png" },
         { value: 10 , image: "img/card/diamondsKing.png" }
+      // I like that your deck is created dynamically, but this is 52 HTTP requests for every page load.
+      // Either use html and css to build the deck or combine these images into one (use a sprite) to minimize
+      // the number of requests.
             ] ,
 
       player : {
@@ -68,7 +71,7 @@
       } ,
 
       dealer : {
-        $cardsLocation: $("div.dealer"),
+        $cardsLocation: $("div.dealer"), //excellent use of $ to indicate jquery object!
         $scoreLocation: $("#dealerScore"),
         score : 0,
         cards : [] ,
@@ -79,6 +82,8 @@
         if (facedown) {
               $("<img />").appendTo(person.$cardsLocation).attr( "src", "img/card/back.png")
                           .css({ marginLeft: '500px', opacity: '0'}).animate({ marginLeft: '-40px', opacity: '1'}, 400, callback);
+	      // I recommend toggling classes instead of setting inline styles. This will allow you to keep your styles in CSS files
+	      // and behavior in JS files.
         } else {
               $("<img />").appendTo(person.$cardsLocation).attr( "src", this.deck[cardIndex].image)
                           .css({ marginLeft: '540px', opacity: '0'}).animate({ marginLeft: '-40px', opacity: '1'}, 400, callback);
@@ -120,7 +125,7 @@
       } ,
 
       setUpStandBtn : function() {
-        var self = this;
+        var self = this; //nice! could also do .bind(this) in the event listener.
         var $button = $(":button#stand");
         $button.on( "click", function() {
             self.endHand();
@@ -167,7 +172,7 @@
         if (this.player.score === 21 && this.player.cards.length === 2 && this.dealer.score !== 21) {
           result = "BlackJack";
           this.player.bankingRoll += this.player.bet * 2.5;
-          this.soundEffects.happySound.play();
+          this.soundEffects.happySound.play(); // nice touch!!
         } else if (this.player.score > 21) {
           result = "Busted";
           this.soundEffects.sadSound.play();
@@ -190,6 +195,7 @@
         $(".playerScore").text(this.player.score);
         $board.show();
         setTimeout(function() {
+	  // does this need to be in a setTimeout?
           $popup.css("transform", "");
         }, 0)
       },
@@ -217,13 +223,14 @@
         $message.show();
 
         var array = $.merge( self.player.cards.splice(0, self.player.cards.length), self.dealer.cards.splice(0, self.dealer.cards.length));
+	// excellent use of `.merge` !
         $.merge( self.deck, array);
         $(".dealer").html(null);
         $(".player").html(null);
         $("#playerScore").html(null);
         $("#dealerScore").html(null);
 
-        $(":button#hit").hide();
+        $(":button#hit").hide(); //why use the color before "button"? this works but I'm not sure why.
         $(":button#stand").hide();
         $(".betPileChip").remove();
 
@@ -282,6 +289,8 @@
             if (!closingOverlay) {
               closingOverlay = true;
               $popup.css("transform", "scale(0)");
+	      // ^^ I recommend using a class here as well.
+	      // also some older browsers require a vendor prefix to do the transform.
               setTimeout(function() {
                 $board.hide();
                 $message.show();
@@ -293,6 +302,7 @@
             $board.hide();
             $message.show().html("Sorry, you are bankrupt. <br /> Call: ");
             $( "<a href='tel:18005224700'></a>" ).appendTo($message).text("1-800-522-4700");
+	    // ^^ awesome!
           }
         });
 
@@ -341,6 +351,9 @@
           $message.hide();
           self.placeBet(500);
         });
+	// can you think of a way to DRY up the 4 click handlers above?
+	// That is... what if you wanted users to be able to enter their
+	// own betting amounts?
        } ,
 
         placeBet : function(amount) {
@@ -351,7 +364,7 @@
           var handDealt = false;
           if (this.handDealt) return;
 
-
+//remove empty white space.
 
           if (amount <= this.player.bankingRoll) {
             this.player.bankingRoll -= amount;
@@ -387,3 +400,9 @@
       //end of blackJack object
     }
     blackJack.startGame() ;
+
+// Overall
+//
+// Excellent OOJS solution! Your method and variable names are very clear and this makes
+// your code very easy to read. I would encourage you to use CSS classes and animations
+// instead of using `.animate` to separate your concerns.

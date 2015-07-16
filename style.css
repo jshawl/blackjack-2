@@ -6,6 +6,7 @@ body {
   background-image: url("img/table.jpg");
   height: 768px;
   width: 1024px;
+  /* please remove commented out code before submitting in the future */
 /*margin-left: auto;
 margin-right: auto;
 position: inherit;*/
@@ -33,6 +34,7 @@ img {
 
 /*********************/
 /***  my Button   ***/
+//awesome code comments!
 /*******************/
 #bet {
   position: absolute;
@@ -70,6 +72,7 @@ img {
 	-moz-box-shadow:inset 0px 2px 0px 0px #d1f0d3;
 	-webkit-box-shadow:inset 0px 2px 0px 0px #d1f0d3;
 	box-shadow:inset 0px 2px 0px 0px #d1f0d3;
+	/* excellent vendor prefixes! */
 	background-color:#d4c37d;
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;
@@ -217,3 +220,5 @@ table {
   top: 707px;
   left: 967px;
 }
+
+/* Awesome CSS!! I especially like your code comments and organization */
