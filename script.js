@@ -386,5 +386,4 @@
         }
       //end of blackJack object
     }
-//1-800-522-4700
     blackJack.startGame() ;
